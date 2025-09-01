@@ -20,8 +20,12 @@ const TapButton: React.FC = () => {
           {/* Inner Shine Effect */}
           <div className="absolute inset-4 bg-gradient-to-br from-white/20 to-transparent rounded-full"></div>
           
-          {/* Center Icon */}
-          <div className="relative z-10 text-8xl filter drop-shadow-lg">⚡</div>
+          {/* Center Coin Image */}
+          <img 
+            src="/logo.png" 
+            alt="Coin" 
+            className="relative z-10 w-40 h-40 rounded-full object-cover drop-shadow-lg" 
+          />
           
           {/* Ripple Effect on Tap */}
           <div className="absolute inset-0 rounded-full group-active:animate-ping bg-white/20"></div>
