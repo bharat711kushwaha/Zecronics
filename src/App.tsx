@@ -8,6 +8,14 @@ import UpgradesTab from './components/Upgrades/UpgradesTab';
 import StatsTab from './components/Stats/StatsTab';
 import Navigation from './components/Navigation/Navigation';
 import HomePage from './pages/HomePage';
+import CryptoDashboardPage from './pages/CryptoDashboard';
+
+// Income Pages
+import DirectIncomePage from './pages/DirectIncomePage';
+import LevelIncomePage from './pages/LevelIncomePage';
+import ROIIncomePage from './pages/ROIIncomePage';
+import BonusIncomePage from './pages/BonusIncomePage';
+import TotalIncomePage from './pages/TotalIncomePage';
 
 const ZecronicsApp: React.FC = () => {
   const { gameState } = useGame();
@@ -51,6 +59,15 @@ const App: React.FC = () => {
 
           {/* Investment Page */}
           <Route path="/investment" element={<HomePage />} />
+                    <Route path="/investment/dashboard" element={<CryptoDashboardPage />} />
+          
+          {/* Income Report Routes */}
+          <Route path="/investment/income/direct" element={<DirectIncomePage />} />
+          <Route path="/investment/income/level" element={<LevelIncomePage />} />
+          <Route path="/investment/income/roi" element={<ROIIncomePage />} />
+          <Route path="/investment/income/bonus" element={<BonusIncomePage />} />
+          <Route path="/investment/income/total" element={<TotalIncomePage />} />
+
         </Routes>
       </Router>
     </GameProvider>

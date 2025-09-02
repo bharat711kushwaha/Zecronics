@@ -81,7 +81,7 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   // Handle dashboard navigation
   const handleDashboardClick = () => {
     if (isConnected && isOnBNBChain) {
-      navigate('/dashboard');
+      navigate('/investment/dashboard');
     } else if (isConnected && !isOnBNBChain) {
       alert('Please switch to BNB Smart Chain to access the dashboard.');
     }
@@ -137,7 +137,7 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                 Security
               </Link>
               <Link 
-                to="/dashboard" 
+                to="/investment/dashboard" 
                 className="flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors"
               >
                 <BarChart3 size={16} />
@@ -334,7 +334,7 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                     { name: 'Features', href: '/#features' },
                     { name: 'How it Works', href: '/#how-it-works' },
                     { name: 'Security', href: '/#security' },
-                    { name: 'Dashboard', href: '/dashboard' }
+                    { name: 'Dashboard', href: '/investment/dashboard' }
                   ].map((link) => (
                     <Link
                       key={link.name}
