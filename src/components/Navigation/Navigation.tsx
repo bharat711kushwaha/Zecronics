@@ -13,7 +13,8 @@ const Navigation: React.FC = () => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-xl border-t border-purple-500/20 safe-area-pb shadow-2xl">
+<div className="sticky bottom-0 bg-black/90 backdrop-blur-xl border-t border-purple-500/20 safe-area-pb shadow-2xl">
+
       {/* Animated glow effect */}
       <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 animate-pulse"></div>
       
