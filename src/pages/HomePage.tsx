@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWallet } from '../hooks/useWallet';
@@ -7,9 +6,9 @@ import HomeLayout from '../components/HomeLayout';
 import HeroSection from '../components/HeroSection'; 
 import { 
   AlertTriangle, Shield, Zap, Globe, DollarSign, 
-  Smartphone, Wallet, TrendingUp, Users, CheckCircle,
-  Star, Lock, RefreshCw, Play, ArrowRight, ExternalLink,
-  BarChart3, 
+  Smartphone, Wallet, TrendingUp, 
+   Lock, RefreshCw, ArrowRight, ExternalLink,
+   ChevronDown
 } from 'lucide-react';
 
 const HomePage: React.FC = () => {
@@ -23,25 +22,7 @@ const HomePage: React.FC = () => {
   } = useWallet();
   const navigate = useNavigate();
   const [showNetworkWarning, setShowNetworkWarning] = useState(false);
-  const [activeFeature, setActiveFeature] = useState(0);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
-
-  // Auto-rotate features
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % 6);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Auto-rotate testimonials
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % 3);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleConnect = async () => {
     try {
@@ -80,25 +61,13 @@ const HomePage: React.FC = () => {
       />
 
       {/* Features Section */}
-      <FeaturesSection activeFeature={activeFeature} />
+      <FeaturesSection />
 
       {/* How It Works Section */}
       <HowItWorksSection />
 
-      {/* Interactive Demo Section */}
-      <DemoSection />
-
       {/* Supported Wallets Section */}
       <SupportedWalletsSection />
-
-      {/* Stats Section */}
-      <StatsSection />
-
-      {/* Testimonials Section */}
-      <TestimonialsSection 
-        activeTestimonial={activeTestimonial}
-        setActiveTestimonial={setActiveTestimonial}
-      />
 
       {/* Security Section */}
       <SecuritySection />
@@ -129,18 +98,18 @@ const NetworkWarning: React.FC<{ show: boolean; onClose: () => void }> = ({ show
         exit={{ opacity: 0, y: -100 }}
         className="fixed top-20 left-4 right-4 sm:left-1/2 sm:right-auto sm:transform sm:-translate-x-1/2 sm:w-96 z-50"
       >
-        <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white p-6 rounded-2xl shadow-2xl border border-amber-300/50 backdrop-blur-xl">
+        <div className="bg-amber-500 text-white p-4 rounded-lg shadow-lg border border-amber-400">
           <div className="flex items-start space-x-3">
-            <AlertTriangle size={24} className="flex-shrink-0 mt-1" />
+            <AlertTriangle size={20} className="flex-shrink-0 mt-0.5" />
             <div className="flex-1 min-w-0">
-              <h3 className="font-bold text-base mb-1">Wrong Network!</h3>
-              <p className="text-sm text-amber-50 leading-relaxed">
+              <h3 className="font-semibold text-sm mb-1">Wrong Network!</h3>
+              <p className="text-sm text-amber-50">
                 Please switch to BNB Smart Chain to access the dashboard.
               </p>
             </div>
             <button 
               onClick={onClose}
-              className="flex-shrink-0 text-white hover:text-amber-200 text-xl leading-none transition-colors p-1"
+              className="flex-shrink-0 text-white hover:text-amber-200 text-lg leading-none p-1"
             >
               ×
             </button>
@@ -152,57 +121,49 @@ const NetworkWarning: React.FC<{ show: boolean; onClose: () => void }> = ({ show
 };
 
 // Features Section
-const FeaturesSection: React.FC<{ activeFeature: number }> = ({ activeFeature }) => {
+const FeaturesSection: React.FC = () => {
   const features = [
     {
       icon: Shield,
       title: 'Bank-Level Security',
       description: 'Your private keys remain secure with advanced encryption and never leave your device.',
-      gradient: 'from-blue-500 to-cyan-500',
-      stats: '256-bit encryption'
+      color: 'blue'
     },
     {
       icon: Zap,
       title: 'Lightning Fast',
       description: 'Experience instant transactions with minimal fees on the BNB Smart Chain network.',
-      gradient: 'from-yellow-500 to-orange-500',
-      stats: '<1s confirmation'
+      color: 'yellow'
     },
     {
       icon: Globe,
       title: 'Multi-Wallet Support',
       description: 'Connect with MetaMask, Trust Wallet, TokenPocket, and 15+ other popular wallets.',
-      gradient: 'from-purple-500 to-pink-500',
-      stats: '15+ wallets'
+      color: 'green'
     },
     {
       icon: DollarSign,
       title: 'Low Fees',
       description: 'Enjoy the lowest transaction fees in the crypto space with BNB Smart Chain.',
-      gradient: 'from-green-500 to-emerald-500',
-      stats: '$0.05 avg fee'
+      color: 'indigo'
     },
     {
       icon: RefreshCw,
       title: 'Easy Swaps',
       description: 'Swap tokens instantly with our integrated DEX aggregator for best prices.',
-      gradient: 'from-indigo-500 to-blue-500',
-      stats: 'Best rates'
+      color: 'purple'
     },
     {
       icon: Smartphone,
       title: 'Mobile Ready',
       description: 'Fully responsive design works perfectly on all devices and screen sizes.',
-      gradient: 'from-rose-500 to-pink-500',
-      stats: '100% responsive'
+      color: 'pink'
     }
   ];
 
   return (
-    <section id="features" className="py-20 lg:py-32 bg-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 to-purple-50/50"></div>
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="features" className="py-16 lg:py-24 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -225,29 +186,17 @@ const FeaturesSection: React.FC<{ activeFeature: number }> = ({ activeFeature })
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`group relative bg-white rounded-3xl p-8 border transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${
-                activeFeature === index 
-                  ? 'border-blue-200 shadow-xl scale-105' 
-                  : 'border-gray-100 hover:border-gray-200'
-              }`}
+              className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-2"
             >
-              {/* Background Gradient on Hover */}
-              <div className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-3xl`}></div>
-              
-              <div className="relative">
-                <div className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                  <feature.icon size={24} />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  {feature.description}
-                </p>
-                <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r ${feature.gradient} text-white`}>
-                  {feature.stats}
-                </div>
+              <div className={`w-12 h-12 bg-${feature.color}-100 rounded-xl flex items-center justify-center text-${feature.color}-600 mb-6`}>
+                <feature.icon size={24} />
               </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                {feature.title}
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                {feature.description}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -263,34 +212,30 @@ const HowItWorksSection: React.FC = () => {
       step: '01',
       title: 'Install Wallet',
       description: 'Download and install a compatible Web3 wallet like MetaMask or Trust Wallet.',
-      icon: Smartphone,
-      color: 'blue'
+      icon: Smartphone
     },
     {
       step: '02',
       title: 'Connect Wallet',
       description: 'Click "Connect Wallet" and choose your preferred wallet from the list.',
-      icon: Wallet,
-      color: 'purple'
+      icon: Wallet
     },
     {
       step: '03',
       title: 'Switch Network',
       description: 'Ensure you\'re connected to BNB Smart Chain for optimal experience.',
-      icon: Globe,
-      color: 'green'
+      icon: Globe
     },
     {
       step: '04',
       title: 'Start Trading',
       description: 'Access your dashboard and start trading, swapping, and managing your crypto.',
-      icon: TrendingUp,
-      color: 'orange'
+      icon: TrendingUp
     }
   ];
 
   return (
-    <section id="how-it-works" className="py-20 lg:py-32 bg-gradient-to-br from-gray-50 to-blue-50 relative overflow-hidden">
+    <section id="how-it-works" className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -316,18 +261,13 @@ const HowItWorksSection: React.FC = () => {
               transition={{ delay: index * 0.2 }}
               className="relative text-center"
             >
-              {/* Connector Line */}
+              {/* Connector Line - Desktop only */}
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-gray-300 to-gray-200 transform -translate-y-1/2 z-0"></div>
+                <div className="hidden lg:block absolute top-1/2 left-full w-full h-0.5 bg-gray-200 transform -translate-y-1/2 z-0"></div>
               )}
               
-              <div className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 z-10 border border-gray-100">
-                <div className={`w-16 h-16 bg-gradient-to-r ${
-                  step.color === 'blue' ? 'from-blue-500 to-cyan-500' :
-                  step.color === 'purple' ? 'from-purple-500 to-pink-500' :
-                  step.color === 'green' ? 'from-green-500 to-emerald-500' :
-                  'from-orange-500 to-yellow-500'
-                } rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-lg`}>
+              <div className="relative bg-gray-50 rounded-2xl p-8 hover:bg-white hover:shadow-lg transition-all duration-300 z-10 border border-gray-100">
+                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-xl font-bold mx-auto mb-6 shadow-lg">
                   {step.step}
                 </div>
                 <div className="mb-4">
@@ -348,123 +288,21 @@ const HowItWorksSection: React.FC = () => {
   );
 };
 
-// Interactive Demo Section
-const DemoSection: React.FC = () => {
-  return (
-    <section className="py-20 lg:py-32 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-purple-900/20"></div>
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="text-white"
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-              Try Our Live Demo
-            </h2>
-            <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-              Experience the power of our platform with our interactive demo. 
-              No wallet connection required!
-            </p>
-            
-            <div className="space-y-4 mb-8">
-              {[
-                'Real-time price feeds',
-                'Interactive trading interface',
-                'Portfolio simulation',
-                'Multi-wallet preview'
-              ].map((feature, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-center space-x-3"
-                >
-                  <CheckCircle size={20} className="text-green-400 flex-shrink-0" />
-                  <span className="text-blue-100">{feature}</span>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-blue-600 font-semibold px-8 py-4 rounded-2xl hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              <span className="flex items-center space-x-2">
-                <Play size={20} />
-                <span>Launch Demo</span>
-              </span>
-            </motion.button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
-            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
-              <div className="space-y-6">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center">
-                    <BarChart3 size={24} className="text-white" />
-                  </div>
-                  <div>
-                    <div className="text-white font-semibold">Portfolio Value</div>
-                    <div className="text-green-300 text-2xl font-bold">$12,456.78</div>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-blue-200 text-sm">24h Change</div>
-                    <div className="text-green-400 font-bold">+12.5%</div>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-blue-200 text-sm">Total Assets</div>
-                    <div className="text-white font-bold">8</div>
-                  </div>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="text-blue-200 text-sm">Top Holdings</div>
-                  {['BTC', 'ETH', 'BNB'].map((asset, index) => (
-                    <div key={asset} className="flex items-center justify-between">
-                      <span className="text-white">{asset}</span>
-                      <span className="text-green-400">+{5 + index}%</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
 // Supported Wallets Section
 const SupportedWalletsSection: React.FC = () => {
   const wallets = [
-    { name: 'MetaMask', icon: '🦊', users: '30M+', gradient: 'from-orange-400 to-orange-600' },
-    { name: 'Trust Wallet', icon: '🛡️', users: '60M+', gradient: 'from-blue-400 to-blue-600' },
-    { name: 'TokenPocket', icon: '💰', users: '20M+', gradient: 'from-green-400 to-green-600' },
-    { name: 'SafePal', icon: '🔐', users: '10M+', gradient: 'from-purple-400 to-purple-600' },
-    { name: 'Binance Chain', icon: '🟡', users: '15M+', gradient: 'from-yellow-400 to-yellow-600' },
-    { name: 'WalletConnect', icon: '🔗', users: '40M+', gradient: 'from-indigo-400 to-indigo-600' },
-    { name: 'Coinbase Wallet', icon: '🔵', users: '35M+', gradient: 'from-cyan-400 to-cyan-600' },
-    { name: 'OKX Wallet', icon: '⚫', users: '25M+', gradient: 'from-gray-400 to-gray-600' }
+    { name: 'MetaMask', icon: '🦊', users: '30M+' },
+    { name: 'Trust Wallet', icon: '🛡️', users: '60M+' },
+    { name: 'TokenPocket', icon: '💰', users: '20M+' },
+    { name: 'SafePal', icon: '🔐', users: '10M+' },
+    { name: 'Binance Chain', icon: '🟡', users: '15M+' },
+    { name: 'WalletConnect', icon: '🔗', users: '40M+' },
+    { name: 'Coinbase Wallet', icon: '🔵', users: '35M+' },
+    { name: 'OKX Wallet', icon: '⚫', users: '25M+' }
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-16 lg:py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -488,9 +326,9 @@ const SupportedWalletsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 hover:border-gray-200"
+              className="bg-white rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-2 border border-gray-100"
             >
-              <div className={`w-16 h-16 bg-gradient-to-r ${wallet.gradient} rounded-2xl flex items-center justify-center text-3xl mb-4 mx-auto group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+              <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center text-3xl mb-4 mx-auto">
                 {wallet.icon}
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">{wallet.name}</h3>
@@ -503,156 +341,10 @@ const SupportedWalletsSection: React.FC = () => {
   );
 };
 
-// Stats Section
-const StatsSection: React.FC = () => {
-  const stats = [
-    { number: '100K+', label: 'Active Users', icon: Users, color: 'blue' },
-    { number: '$2M+', label: 'Volume Traded', icon: DollarSign, color: 'green' },
-    { number: '15+', label: 'Supported Wallets', icon: Wallet, color: 'purple' },
-    { number: '99.9%', label: 'Uptime', icon: Zap, color: 'orange' }
-  ];
-
-  return (
-    <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-purple-900/20"></div>
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="text-center text-white group hover:scale-105 transition-transform duration-300"
-            >
-              <div className={`w-16 h-16 bg-gradient-to-r ${
-                stat.color === 'blue' ? 'from-blue-500 to-cyan-500' :
-                stat.color === 'green' ? 'from-green-500 to-emerald-500' :
-                stat.color === 'purple' ? 'from-purple-500 to-pink-500' :
-                'from-orange-500 to-yellow-500'
-              } rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl transition-shadow`}>
-                <stat.icon size={24} className="text-white" />
-              </div>
-              <div className="text-3xl lg:text-4xl font-bold mb-2">{stat.number}</div>
-              <div className="text-blue-100 text-lg">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// Testimonials Section
-const TestimonialsSection: React.FC<{
-  activeTestimonial: number;
-  setActiveTestimonial: (index: number) => void;
-}> = ({ activeTestimonial, setActiveTestimonial }) => {
-  const testimonials = [
-    {
-      name: 'Alex Chen',
-      role: 'DeFi Trader',
-      avatar: '👨‍💼',
-      content: 'The easiest way to connect to DeFi. Security is top-notch and the interface is incredibly user-friendly.',
-      rating: 5,
-      gradient: 'from-blue-500 to-cyan-500'
-    },
-    {
-      name: 'Sarah Wilson',
-      role: 'Crypto Investor',
-      avatar: '👩‍💻',
-      content: 'I love how fast and secure the transactions are. Multi-wallet support is a game changer!',
-      rating: 5,
-      gradient: 'from-purple-500 to-pink-500'
-    },
-    {
-      name: 'Mike Rodriguez',
-      role: 'NFT Creator',
-      avatar: '🎨',
-      content: 'Best Web3 platform I\'ve used. Low fees and great customer support. Highly recommended!',
-      rating: 5,
-      gradient: 'from-green-500 to-emerald-500'
-    }
-  ];
-
-  return (
-    <section className="py-20 lg:py-32 bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            What Our Users Say
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Join thousands of satisfied users who trust our platform
-          </p>
-        </motion.div>
-
-        <div className="relative">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className={`group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 relative overflow-hidden cursor-pointer ${
-                  activeTestimonial === index ? 'scale-105 shadow-2xl' : 'hover:-translate-y-2'
-                }`}
-                onClick={() => setActiveTestimonial(index)}
-              >
-                {/* Background Gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-r ${testimonial.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
-                
-                <div className="relative">
-                  <div className="flex items-center mb-6">
-                    <div className={`w-16 h-16 bg-gradient-to-r ${testimonial.gradient} rounded-2xl flex items-center justify-center text-3xl mr-4 shadow-lg`}>
-                      {testimonial.avatar}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 text-lg">{testimonial.name}</h3>
-                      <p className="text-gray-500">{testimonial.role}</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-600 mb-6 leading-relaxed italic">"{testimonial.content}"</p>
-                  <div className="flex space-x-1">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} size={20} className="text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Testimonial Navigation */}
-          <div className="flex justify-center mt-8 space-x-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveTestimonial(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  activeTestimonial === index ? 'bg-blue-600 w-8' : 'bg-gray-300 hover:bg-gray-400'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
 // Security Section
 const SecuritySection: React.FC = () => {
   return (
-    <section id="security" className="py-20 lg:py-32 bg-white">
+    <section id="security" className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
@@ -672,20 +364,17 @@ const SecuritySection: React.FC = () => {
                 { 
                   icon: Lock, 
                   title: 'Non-Custodial', 
-                  desc: 'You maintain full control of your private keys and funds.',
-                  gradient: 'from-blue-500 to-cyan-500'
+                  desc: 'You maintain full control of your private keys and funds.'
                 },
                 { 
                   icon: Shield, 
                   title: 'Open Source', 
-                  desc: 'Transparent, audited code that you can verify yourself.',
-                  gradient: 'from-green-500 to-emerald-500'
+                  desc: 'Transparent, audited code that you can verify yourself.'
                 },
                 { 
                   icon: RefreshCw, 
                   title: 'Multi-Layer Security', 
-                  desc: 'Advanced encryption and security protocols protect your data.',
-                  gradient: 'from-purple-500 to-pink-500'
+                  desc: 'Advanced encryption and security protocols protect your data.'
                 }
               ].map((item, index) => (
                 <motion.div
@@ -694,9 +383,9 @@ const SecuritySection: React.FC = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="flex items-start space-x-4 group"
+                  className="flex items-start space-x-4"
                 >
-                  <div className={`flex-shrink-0 w-14 h-14 bg-gradient-to-r ${item.gradient} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600">
                     <item.icon size={20} />
                   </div>
                   <div>
@@ -714,11 +403,7 @@ const SecuritySection: React.FC = () => {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl">
-              {/* Background Decoration */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
-              
+            <div className="bg-blue-600 rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl">
               <div className="relative">
                 <div className="text-center mb-8">
                   <div className="text-6xl mb-4">🛡️</div>
@@ -728,11 +413,11 @@ const SecuritySection: React.FC = () => {
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-6 text-center">
-                  <div className="bg-white/20 rounded-2xl p-4 backdrop-blur-sm">
+                  <div className="bg-white/20 rounded-2xl p-4">
                     <div className="text-2xl sm:text-3xl font-bold">$2M+</div>
                     <div className="text-blue-200 text-sm">Secured Volume</div>
                   </div>
-                  <div className="bg-white/20 rounded-2xl p-4 backdrop-blur-sm">
+                  <div className="bg-white/20 rounded-2xl p-4">
                     <div className="text-2xl sm:text-3xl font-bold">0</div>
                     <div className="text-blue-200 text-sm">Security Breaches</div>
                   </div>
@@ -775,7 +460,7 @@ const FAQSection: React.FC<{
   ];
 
   return (
-    <section className="py-20 lg:py-32 bg-gray-50">
+    <section className="py-16 lg:py-24 bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -799,24 +484,20 @@ const FAQSection: React.FC<{
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
             >
               <button
-                className="w-full px-6 py-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors group"
+                className="w-full px-6 py-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
                 onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
               >
-                <span className="text-lg font-semibold text-gray-900 pr-4 group-hover:text-blue-600">
+                <span className="text-lg font-semibold text-gray-900 pr-4">
                   {faq.question}
                 </span>
-                <motion.span
-                  animate={{ rotate: openFAQ === index ? 45 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className={`text-2xl transition-colors ${
-                    openFAQ === index ? 'text-blue-600' : 'text-gray-400'
+                <ChevronDown 
+                  className={`w-5 h-5 text-gray-400 transition-transform ${
+                    openFAQ === index ? 'rotate-180' : ''
                   }`}
-                >
-                  +
-                </motion.span>
+                />
               </button>
               <AnimatePresence>
                 {openFAQ === index && (
@@ -847,35 +528,8 @@ const CTASection: React.FC<{
   isOnBNBChain: boolean;
 }> = ({ isConnected, onConnect, onOpenDashboard, isOnBNBChain }) => {
   return (
-    <section className="py-20 lg:py-32 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-purple-900/20"></div>
-      
-      {/* Background Animation */}
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-white/10"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 6 + 2}px`,
-              height: `${Math.random() * 6 + 2}px`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.3, 1, 0.3],
-            }}
-            transition={{
-              duration: Math.random() * 3 + 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
-      
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <section className="py-16 lg:py-24 bg-blue-600">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -897,17 +551,11 @@ const CTASection: React.FC<{
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onConnect}
-                className="group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white rounded-2xl hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white rounded-xl hover:bg-gray-50 transition-all duration-300 shadow-lg"
               >
                 <Wallet size={20} className="mr-3" />
                 <span>Connect Your Wallet Now</span>
-                <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className="ml-2"
-                >
-                  <ArrowRight size={16} />
-                </motion.div>
+                <ArrowRight size={16} className="ml-2" />
               </motion.button>
             ) : (
               <motion.button
@@ -915,14 +563,14 @@ const CTASection: React.FC<{
                 whileTap={{ scale: 0.95 }}
                 onClick={onOpenDashboard}
                 disabled={!isOnBNBChain}
-                className={`group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl ${
+                className={`inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300 shadow-lg ${
                   isOnBNBChain 
                     ? 'text-green-600 bg-white hover:bg-gray-50' 
                     : 'text-gray-400 bg-gray-200 cursor-not-allowed'
                 }`}
               >
                 {isOnBNBChain ? <TrendingUp size={20} className="mr-3" /> : <AlertTriangle size={20} className="mr-3" />}
-                <span>{isOnBNBChain ? 'Open Dashboard' : 'Switch to BNB Chain'}</span>
+                <span>{isOnBNBChain ? 'Open Dashboard' : 'Switch Network'}</span>
                 {isOnBNBChain && <ArrowRight size={16} className="ml-2" />}
               </motion.button>
             )}
@@ -930,45 +578,11 @@ const CTASection: React.FC<{
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-white/20 backdrop-blur-sm rounded-2xl hover:bg-white/30 transition-all duration-300 border border-white/30"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-white/20 rounded-xl hover:bg-white/30 transition-all duration-300 border border-white/30"
             >
               <ExternalLink size={20} className="mr-3" />
               <span>Documentation</span>
             </motion.button>
-          </div>
-
-          {/* Additional CTA Features */}
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            {[
-              {
-                icon: '🔒',
-                title: 'Secure & Safe',
-                description: 'Bank-level security with non-custodial architecture'
-              },
-              {
-                icon: '⚡',
-                title: 'Lightning Fast',
-                description: 'Instant transactions with minimal fees'
-              },
-              {
-                icon: '🌐',
-                title: 'Multi-Chain',
-                description: 'Support for 15+ popular wallets'
-              }
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 + index * 0.1 }}
-                className="text-white"
-              >
-                <div className="text-3xl mb-3">{feature.icon}</div>
-                <h3 className="font-semibold mb-2">{feature.title}</h3>
-                <p className="text-blue-100 text-sm">{feature.description}</p>
-              </motion.div>
-            ))}
           </div>
         </motion.div>
       </div>
