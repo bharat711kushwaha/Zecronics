@@ -12,11 +12,11 @@ const TapButton: React.FC = () => {
         className="w-80 h-80 relative cursor-pointer flex items-center justify-center"
         style={{ userSelect: 'none' }}
       >
-        {/* Sirf Image, aur kuch nahi */}
+        
         <img 
           src="/logo.png" 
           alt="Coin" 
-          className="w-80 h-80 rounded-full object-cover cursor-pointer" 
+          className="w-60 h-60 rounded-full object-cover cursor-pointer" 
         />
       </div>
 
