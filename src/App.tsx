@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { GameProvider } from './context/GameContext';
 import { useGame } from './context/GameContext';
 import Header from './components/Header/Header';
@@ -6,6 +7,7 @@ import GameArea from './components/GameArea/GameArea';
 import UpgradesTab from './components/Upgrades/UpgradesTab';
 import StatsTab from './components/Stats/StatsTab';
 import Navigation from './components/Navigation/Navigation';
+import HomePage from './pages/HomePage';
 
 const ZecronicsApp: React.FC = () => {
   const { gameState } = useGame();
@@ -13,11 +15,11 @@ const ZecronicsApp: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-blue-900 to-purple-900 text-white overflow-x-hidden">
       <Header />
-      
+
       {gameState.activeTab === 'home' && <GameArea />}
       {gameState.activeTab === 'upgrades' && <UpgradesTab />}
       {gameState.activeTab === 'stats' && <StatsTab />}
-      
+
       <Navigation />
 
       <style>{`
@@ -42,7 +44,15 @@ const ZecronicsApp: React.FC = () => {
 const App: React.FC = () => {
   return (
     <GameProvider>
-      <ZecronicsApp />
+      <Router>
+        <Routes>
+          {/* Main Game UI */}
+          <Route path="/" element={<ZecronicsApp />} />
+
+          {/* Investment Page */}
+          <Route path="/investment" element={<HomePage />} />
+        </Routes>
+      </Router>
     </GameProvider>
   );
 };
