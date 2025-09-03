@@ -57,7 +57,7 @@ const Header: React.FC = () => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2 animate-glow">
               <img 
-                src="/gold.png" 
+                src="/z.png" 
                 alt="Diamond" 
                 className="w-6 h-6 object-contain animate-bounce"
                 onError={(e) => {
@@ -136,7 +136,7 @@ const Header: React.FC = () => {
             <div className="text-right animate-glow">
               <div className="flex items-center space-x-3 mb-2">
                 <img 
-                  src="/gold.png" 
+                  src="/z.png" 
                   alt="Diamond" 
                   className="w-10 h-10 object-contain animate-bounce"
                   onError={(e) => {

@@ -14,7 +14,7 @@ const TapButton: React.FC = () => {
       >
         
         <img 
-          src="/logo.png" 
+          src="/zynk.jpg" 
           alt="Coin" 
           className="w-60 h-60 rounded-full object-cover cursor-pointer" 
         />
