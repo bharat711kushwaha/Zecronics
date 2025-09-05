@@ -26,9 +26,9 @@ const ZecronicsApp: React.FC = () => {
         <Header />
       </div>
 
-      {/* Scrollable Main Content Area */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden">
-        <div className="min-h-full">
+      {/* Main Content Area - Fixed for GameArea, Scrollable for others */}
+      <div className={`flex-1 ${gameState.activeTab === 'home' ? 'overflow-hidden' : 'overflow-y-auto overflow-x-hidden'}`}>
+        <div className="h-full">
           {gameState.activeTab === 'home' && <GameArea />}
           {gameState.activeTab === 'upgrades' && <UpgradesTab />}
           {gameState.activeTab === 'stats' && <StatsTab />}
