@@ -9,6 +9,7 @@ import StatsTab from './components/Stats/StatsTab';
 import Navigation from './components/Navigation/Navigation';
 import HomePage from './pages/HomePage';
 import CryptoDashboardPage from './pages/CryptoDashboard';
+import MarketSummary from './pages/MarketSummary';
 // Income Pages
 import DirectIncomePage from './pages/DirectIncomePage';
 import LevelIncomePage from './pages/LevelIncomePage';
@@ -18,28 +19,33 @@ import TotalIncomePage from './pages/TotalIncomePage';
 
 const ZecronicsApp: React.FC = () => {
   const { gameState } = useGame();
-
+  
   return (
     <div className="h-screen bg-gradient-to-b from-gray-900 via-blue-900 to-purple-900 text-white overflow-hidden flex flex-col">
       {/* Fixed Header */}
       <div className="flex-shrink-0">
         <Header />
       </div>
-
+      
       {/* Main Content Area - Fixed for GameArea, Scrollable for others */}
       <div className={`flex-1 ${gameState.activeTab === 'home' ? 'overflow-hidden' : 'overflow-y-auto overflow-x-hidden'}`}>
         <div className="h-full">
           {gameState.activeTab === 'home' && <GameArea />}
           {gameState.activeTab === 'upgrades' && <UpgradesTab />}
           {gameState.activeTab === 'stats' && <StatsTab />}
+          {gameState.activeTab === 'market' && (
+            <div className="h-full overflow-y-auto">
+              <MarketSummary />
+            </div>
+          )}
         </div>
       </div>
-
+      
       {/* Fixed Navigation */}
       <div className="flex-shrink-0">
         <Navigation />
       </div>
-
+      
       <style>{`
         @keyframes tapEffect {
           0% {
@@ -51,26 +57,21 @@ const ZecronicsApp: React.FC = () => {
             transform: translateY(-60px) scale(1.2);
           }
         }
-        
         .safe-area-pb {
           padding-bottom: env(safe-area-inset-bottom);
         }
-
         /* Custom scrollbar for main content */
         .overflow-y-auto::-webkit-scrollbar {
           width: 8px;
         }
-        
         .overflow-y-auto::-webkit-scrollbar-track {
           background: rgba(31, 41, 55, 0.5);
           border-radius: 4px;
         }
-        
         .overflow-y-auto::-webkit-scrollbar-thumb {
           background: linear-gradient(to bottom, #8b5cf6, #a855f7);
           border-radius: 4px;
         }
-        
         .overflow-y-auto::-webkit-scrollbar-thumb:hover {
           background: linear-gradient(to bottom, #7c3aed, #9333ea);
         }
@@ -86,9 +87,11 @@ const App: React.FC = () => {
         <Routes>
           {/* Main Game UI */}
           <Route path="/" element={<ZecronicsApp />} />
+          
           {/* Investment Page */}
           <Route path="/investment" element={<HomePage />} />
           <Route path="/investment/dashboard" element={<CryptoDashboardPage />} />
+          
           {/* Income Report Routes */}
           <Route path="/investment/income/direct" element={<DirectIncomePage />} />
           <Route path="/investment/income/level" element={<LevelIncomePage />} />
